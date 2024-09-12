@@ -1,22 +1,22 @@
 """
 Author: Pietro Girotto
 Date: 12/07/2024
-Description: This module contains the RepoCloner class, which is designed to clone a repository from a given URL,
+Description: This module contains the RepoExtractor class, which is designed to clone a repository from a given URL,
     process files with specific extensions, and retrieve their contents.
 """
 from git import Repo
 import os
 import json
 
-class RepoCloner:
+class RepoExtractor:
     """
-    RepoCloner is a class designed to clone a repository from a given URL,
+    RepoExtractor is a class designed to clone a repository from a given URL,
     process files with specific extensions, and retrieve their contents.
     Attributes:
         PARSERS (dict): A dictionary mapping file extensions to their respective handler methods.
     Methods:
         __init__(repo_url: str, repo_dir: str = "./temp") -> None:
-            Initializes the RepoCloner instance with the repository URL and directory.
+            Initializes the RepoExtractor instance with the repository URL and directory.
         _get_files() -> list[str]:
             Clones the repository, processes files with allowed extensions, and returns their contents.
         get_files() -> list[str]:
@@ -33,22 +33,19 @@ class RepoCloner:
 
     def __init__(self, repo_url: str, repo_dir: str = "./temp") -> None:
         """
-        Initializes the RepoCloner instance.
+        Initializes the RepoExtractor instance.
 
         Args:
             repo_url (str): The URL of the repository to clone.
             repo_dir (str, optional): The directory where the repository will be cloned. Defaults to "./temp".
 
         Raises:
-            OSError: If the directory cannot be created or removed.
+            OSError: If the directory cannot be removed.
         """
         self.repo_url = repo_url
         self.repo_dir = repo_dir
-        if not os.path.exists(self.repo_dir):
-            os.makedirs(self.repo_dir)
-        else:
+        if os.path.exists(self.repo_dir):
             os.system(f"rm -rf {self.repo_dir}")
-            os.makedirs(self.repo_dir)
         self.files = self._get_files()
 
     def _get_files(self) -> list[str]:
@@ -94,7 +91,9 @@ class RepoCloner:
                             files_content.append(handled_content)
                 except Exception as e:
                     print(f"Error reading file {file_path}: {e}")
-
+        # Remove the cloned repository directory
+        os.system(f"rm -rf {self.repo_dir}")
+        
         # Return the list of files' contents
         return files_content
 
