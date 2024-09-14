@@ -1,0 +1,302 @@
+[
+    {
+        "prefix": "import BaseAgent\nfrom .BaselineAgent import BaselineAgent\nfrom .RandomAgent import RandomAgent\nfrom .DQN",
+        "generated": "Agent import DQNAgent\n\n__all__ = ",
+        "correct_middle": "Agent import DQNAgent\nfrom .HybridDQNAgent import HybridDQNAgent\n\n__all__ = ",
+        "suffix": "[\"BaseAgent\", \"BaselineAgent\", \"RandomAgent\", \"DQNAgent\", "
+    },
+    {
+        "prefix": "hybrid_env = OriginalSnakeEnvironment(NUM_BOARDS, BOARD_SIZE)\n\n\n\nrnd_agent = RandomAgent()\n\nbaseline_agent = BaselineAgent()\n\ndqn_ag",
+        "generated": "ent = DQNAgent()\n\nhybrid_agent = HybridAgent()\n\n\n\nrnd_rewards = []\n\nbaseline_rewards = []\n\ndqn_rewards = []\n\nhybrid_rewards = []\n\n\n\nfor _ in trange(MOVES_PER_GAME):\n\n    # Get actions from the agents\n\n    rnd_actions = rnd_agent.get_actions(rnd_env.get_board_state())\n\n    baseline_actions = baseline_agent.get_actions(baseline_env.get_board_state())\n\n    dqn_actions = dqn_agent.get_actions(dqn_env.get_board_state())\n\n    hybrid_actions = hybrid_agent.get_actions(hybrid_env.get_board_state())\n\n\n\n",
+        "correct_middle": "ent = DQNAgent(dqn_env.boards)\n\nhybrid_agent = HybridDQNAgent(hybrid_env.boa",
+        "suffix": "rds)\n\n\n\nrnd_rewards = []\n\nbaseline_rewards = []\n\ndqn_rewards = []\n\nhybrid_rewards = []\n\n\n\nfor _ in trange(MOVES_PER_GAME):\n\n    # Get actions from the agents\n\n    rnd_actions = rnd"
+    },
+    {
+        "prefix": "stant representing a wall in the game.\n        UP (int): Constant representing the up direction.\n        RIGHT (int): Constant representing the right direction.\n  ",
+        "generated": "      DOWN (int): Constant representing the down direction.\n        LEFT (int): Constant representing the left direction.\n        NO_ACTION ",
+        "correct_middle": "      DOWN (int): Constant representing the down direction.\n        LEFT (int): Constant representing the left direction.\n        NONE ",
+        "suffix": "(int): Constant representing no action.\n    Methods:\n        __init__(): Initializes a new instance of the BaseAgent class.\n        get_actions("
+    },
+    {
+        "prefix": "r the given boards.\n\n        \"\"\"\n        if boards.ndim == 2:\n            boards = boards[np.newaxis, :, :]\n        return np.random.choice(range(self",
+        "generated": ".num_actions),",
+        "correct_middle": ".output_size),",
+        "suffix": " size=(boards.shape[0], 1))\n    \n    def get_action(self):\n        \"\"\"\n        Generates a random action.\n\n "
+    },
+    {
+        "prefix": "dom actions for the given boards.\n\n        Parameters:\n        - boards: numpy.ndarray\n            The input boards for which actions need to be gener",
+        "generated": "ated.\n\n        Returns:\n        - actions: numpy.ndarray\n            The generated actions.\n        \"\"\"\n        if boards.ndim ==",
+        "correct_middle": "ated.\n\n        Returns:\n        - numpy.ndarray\n            Randomly generated actions for the given boards.\n\n        \"\"\"\n        if boards.ndim ==",
+        "suffix": " 2:\n            boards = boards[np.newaxis, :, :]\n "
+    },
+    {
+        "prefix": "ybrid_rewards.append(np.mean(hybrid_reward))# Create the plot\n\nplt.figure(figsize=(12, 6))\n\nplt.plot(range(1, MOVES_PER_GAME + 1), rnd_rewards, label='Random Agent",
+        "generated": "', color='red', alpha=0.7)\nplt.plot(range(1, MOVES_PER_GAME + 1), hybrid_rewards, label='Hybrid Agent', color='blue', alpha=0.7)\nplt.plot(range(1, MOVES_PE",
+        "correct_middle": "', color='red', alpha=0.7)\n\nplt.plot(range(1, MOVES_PER_GAME + 1), baseline_rewards, label='Baseline Agent', color='blue', alpha=0.7)\n\nplt.plot(range(1, MOVES_PE",
+        "suffix": "R_GAME + 1), dqn_rewards, label='DQN Agent', color='green', alpha=0.7)\n\nplt."
+    },
+    {
+        "prefix": " BOARD_SIZE)\n\nbase_env = OriginalSnakeEnvironment(NUM_BOARDS, BOARD_SIZE)\n\ndqn_env = OriginalSnakeEnvironment(NUM_BOARDS, BOAR",
+        "generated": "D_SIZE)\n\nhybrid_env = HybridSnakeEnvironment(NUM_BOARDS, BOARD_SIZE)\n\nagent = Rand",
+        "correct_middle": "D_SIZE)\n\nhybrid_env = OriginalSnakeEnvironment(NUM_BOARDS, BOARD_SIZE)\n\n\n\nrnd_agent = Rand",
+        "suffix": "omAgent()\n\nbaseline_agent = BaselineAgent()\n\ndqn_agent = DQNAgent(dqn_env.boards)\n\nhybrid_agent = HybridDQNAgent(hybrid_env.boards)"
+    },
+    {
+        "prefix": "all_collisions(boards, actions): Avoid wall collisions by checking if the new head positions after taking certain actions are within bounds and not wal",
+        "generated": "l.\n    - get_reward(board, action): Calculate the reward for taking the given action on the given board.\n    - get_next_board(board, action): Get the next board after taking the given action on the given board.\n    - get_next_board_state(board, action): Get the next board state after taking the given action on the given board.\n    - get_next_board_state_and_reward(board, action): Get the next board state and reward after taking the given action on the given board.\n    - get_next_board_state_and_reward_and_action(board, action): Get the next board state, reward, and action after taking the given action on the given board.\n    - get_next_board_state_and_reward_and_action_and_collisions(board, action): Get the next board state",
+        "correct_middle": "ls.\n    - get_action(board): Returns the action to be taken by the agent based on the given board state.\n    - learn(prev_boards, acti",
+        "suffix": "ons, rewards, next_boards): Learn from the given experiences.\n    - load_model_weights(path): Load the model weights from the specified path.\n    \"\"\"\n    def __init__(self, boards_"
+    },
+    {
+        "prefix": "   # find the peaces that are in the same place as the new head (ate himself)\n            eaten_body_peace = bodies_[np.argwhere(bodies_eaten_bool)[:, 0]]\n            # for each one of th",
+        "generated": "e eaten pieces, remove t",
+        "correct_middle": "em, delete t",
+        "suffix": "he trailing tail\n            for piece in eaten_body_peace:\n                b = piece[0]\n                "
+    },
+    {
+        "prefix": "f the action to take.\n\n        Raises:\n        - None\n\n        \"\"\"\n        height, width = board.shape\n\n       ",
+        "generated": " # Check if the snake is dead\n        if self.dead:\n            return\n\n        # Check if the snake is eating\n        if self.eating:\n            self.eating = False\n            self.grow()\n\n        # Check if the snake is moving\n        if self.moving:\n            self.move()\n\n        # Check if the snake is growing\n        if self.growing:\n            self.grow()\n\n        # Check if the snake is moving\n        if self.moving:\n            self.move()\n\n        # Check if the snake is moving\n        if self.moving:\n            self.move()\n\n        # Check if the snake is moving\n        if self.moving:\n            self.move()\n\n        # Check if the snake is moving\n        if self.moving:\n            self.move",
+        "correct_middle": " # Get positions of head and fruit\n     ",
+        "suffix": "   head = np.unravel_index(np.argmax(board == self.HEAD), (height, width))\n        fruit = np.unra"
+    },
+    {
+        "prefix": "RandomAgent(BaseAgent):\n    \"\"\"\n    RandomAgent is an agent that selects actions randomly.\n    Attributes:\n        output_size (int): The number of possible actions.\n    Methods:\n       ",
+        "generated": " select_action(self, state, legal_actions):\n            Selects an action randomly from the list of legal actions.\n    \"\"\"\n\n    def __init__(self, output_size):\n        \"\"\"\n        Initializes a RandomAgent object.\n\n        Parameters:\n            output_size (int): The number of possible actions.\n\n        Returns:\n            None\n        \"\"\"\n        super().__init__(output_size)\n\n    def select_action(self, state, legal_actions):\n        \"\"\"\n        Selects an action randomly from the list of legal actions.\n\n        Parameters:\n            state (np.ndarray): The current state.\n            legal_actions (list): The list of legal actions.\n\n        Returns:\n            int: The selected action.\n    ",
+        "correct_middle": " get_actions(boards): Returns a random action for each board in the input.\n        get_action(): Returns a random action.\n    \"\"\"\n    def __init__(self):\n    ",
+        "suffix": "    \"\"\"\n        Initializes a RandomAgent object.\n\n        Parameters:\n        None\n\n        Returns:\n   "
+    },
+    {
+        "prefix": "       to_delete_np = np.array(to_delete)\n                self.boards[b, to_delete_np[:, 0], to_delete_np[:, 1]] = self.EMPTY\n                del self.bodies[b][index:]\n               ",
+        "generated": " self.reward += self.REWARD  # * len(to_delete)\n\n        # remove last peace of each body (if fruit not been eaten) and add the head\n        for i in range(self.n_boards):\n            self.bodies[i].ins(self.heads[i])\n\n    def step(self, action):\n        \"\"\"\n        Perform one step of the environment.\n\n        Parameters\n        ----------\n        action : int\n            Action to perform.\n\n        Returns\n        -------\n        reward : float\n            Reward for the performed action.\n        done : bool\n            Whether the episode is over.\n        \"\"\"\n        reward = 0\n        done = False\n\n        # perform action\n        self.heads[self.current_board] = self.heads[self.current_board].act(action)\n\n       ",
+        "correct_middle": " rewards[b] = self.ATE_HIMSELF_R",
+        "suffix": "EWARD  # * len(to_delete)\n\n        # remove last peace of each body (if fruit not been eaten) and add the head\n        for i in range(self.n_boards):\n            self.bodies[i].ins"
+    },
+    {
+        "prefix": "port BaseAgent\nfrom .BaselineAgent import BaselineAgent\nfrom .RandomAgent import RandomAgent\nfrom .DQN",
+        "generated": "Agent import DQNAgent\n\n__all__ ",
+        "correct_middle": "Agent import DQNAgent\nfrom .HybridDQNAgent import HybridDQNAgent\n\n__all__ ",
+        "suffix": "= [\"BaseAgent\", \"BaselineAgent\", \"RandomAgent\", \"DQNAgent\","
+    },
+    {
+        "prefix": "el='DQN Agent', color='green', alpha=0.7)\nplt.plot(range(1, MOVES_PER_GAME + 1), np.cumsum(hybrid_rewards), label='Hybrid DQN Agent', color='purple', alpha=0.7)\n\n# Customize ",
+        "generated": "the plot\nplt.xlabel('Moves', fontsize=12)\nplt.ylabel('Reward', fontsize=12)\nplt.title('Reward vs Moves', ",
+        "correct_middle": "the plot\nplt.title('Cumulative Rewards per Iteration: all agents', fontsize=16)\nplt.xlabel('Iteration', fontsize=12)\nplt.ylabel('Cumulative Reward', ",
+        "suffix": "fontsize=12)\nplt.legend(fontsize=10, loc=\"center left\")\nplt.grid(True, al"
+    },
+    {
+        "prefix": " in enumerate(new_heads[i]):\n                if boards[i][new_head[0], new_head[1]] == self.WALL:\n                    illegal_mask[i, j] = True\n                    wall_mask[i, j",
+        "generated": "] = True\n\n        # Calculate distances for all new head positions to walls\n        distances = np.linalg.norm(new_heads - walls[:, np.newaxis, :], 1, axis=-1)\n\n        # Calculate distances for all new head positions to illegal positions\n        illegal_distances = np.linalg.norm(new_heads - illegal_positions[:, np.newaxis, :], 1, axis=-1)\n\n        # Calculate distances for all new head positions to walls\n        wall_distances = np.linalg.norm(new_heads - wall_positions[:, np.newaxis, :], 1, axis=-1)\n\n        # Calculate distances for all new head positions to illegal positions\n        illegal_wall_distances = np.linalg.norm(new_heads - illegal_",
+        "correct_middle": "] = True\n                elif boards[i][new_head[0], new_head[1]] == self.BODY:\n                    illegal_mask[i, j] = True\n\n      ",
+        "suffix": "  # Calculate distances for all new head positions to fruits\n        distances = np.linalg.norm(new_heads - fruits[:, np.newaxis, :], "
+    },
+    {
+        "prefix": "ent import BaseAgent\nimport numpy as np\n\nclass RandomAgent(BaseAgent):\n    \"\"\"\n    RandomAgent is an agent that selects actions randomly.\n   ",
+        "generated": " \"\"\"\n    def __init__(self, num_actions):\n        \"\"\"\n        Initialize the RandomAgent.\n        Args:\n            num_actions (int): The number of possible actions.\n        \"\"\"\n        super().__init__(num_actions)\n\n    def get_actions(self, state):\n        \"\"\"\n        Get the actions that the agent can take.\n        Args:\n            state (np.ndarray): The current state.\n        Returns:\n            np.ndarray: The actions that the agent can take.\n        \"\"\"\n        return np.random.choice(self.num_actions, size=(1, self.num_actions))\n\n    def get_action(self, state):\n        \"\"\"\n        Get the action that the agent can take.\n        Args:\n            state (np.ndarray): The current state.\n        Returns:\n            np",
+        "correct_middle": " Attributes:\n        output_size (int",
+        "suffix": "): The number of possible actions.\n    Methods:\n        get_actions(b"
+    },
+    {
+        "prefix": "= 4\n\n    def __init__(self):\n        \"\"\"\n        Initializes the BaseAgent object.\n        \"\"\"\n        raise NotImplementedError()\n    \n    def get_actio",
+        "generated": "n(self, game_boards):\n        \"\"\"\n        Returns the action to take in the current state of the game.\n\n        Args:\n        - game_boar",
+        "correct_middle": "ns(self, boards):\n        \"\"\"\n        Returns a list of actions based on the given game boards.\n\n        Parameters:\n        - boar",
+        "suffix": "ds: A np.array of shape (batch, height, width) of game boards representing the current state of the game.\n\n        Returns:\n        - A list of actions to be taken by the agent.\n\n        "
+    },
+    {
+        "prefix": " .BaseAgent import BaseAgent\nfrom .BaselineAgent import BaselineAgent\nfrom .RandomAgent import RandomAgent\nf",
+        "generated": "rom .DQNAgent import D",
+        "correct_middle": "rom .DQNAgent import D",
+        "suffix": "QNAgent\nfrom .HybridDQNAgent import HybridDQNAgent\n\n__all__ = [\"BaseAgent\", \"BaselineAgent\", \"RandomAgent\", \"DQNAgent\", \"HybridDQNAgent\"]"
+    },
+    {
+        "prefix": "elf._board_to_input(next_boards)\n        \n        current_q_values = self.model.predict(input)\n        next_q_values = self.model.pr",
+        "generated": "edict(next_input)\n        \n        for i in range(len(actions)):\n            if actions[i][0] == -1:\n                self.model.fit(input, current_q_values, epochs=1, verbose=0)\n            else:\n                self.model.fit(input, next_q_values, epochs=1, verbose=0)\n        \n        self.model.save(self.model_path)\n        \n    def _board_to_input(self, boards):\n        input = np.zeros((len(boards), self.board_size, self.board_size, 1))\n        for i in range(len(boards)):\n            input[i] = boards[i].reshape(self.board_size, self.board_size, 1)\n        return input\n    \n    def",
+        "correct_middle": "edict(next_input)\n        \n        max_next_q = np.max(next_q_values, axis=1)\n        \n        updated_q_values = current_q_values.copy()\n\n        for i in range(len(rewards)):\n            upda",
+        "suffix": "ted_q_values[i][actions[i][0]] = rewards[i][0] + s"
+    },
+    {
+        "prefix": "t Fruits', color='green', alpha=0.7)\nplt.plot(range(10, MOVES_PER_GAME+1, 10), baseline_fruits_list, label='Baseline Agent Fruits', color='blue",
+        "generated": "', alpha=0.7)\nplt.plot(range(10,",
+        "correct_middle": "', alpha=0.7)\nplt.plot(range(10, MOVES_PER_GAME+1, 10), hybrid_wall_hits, label='Hybrid Agent Wall Hits', color='red', alpha=0.7)\nplt.plot(range(10,",
+        "suffix": " MOVES_PER_GAME+1, 10), baseline_wall_hits, label='Baseline Agent Wall Hits', color='orange', alpha=0.7)\nplt.plot(range(10, MOVES_PER_GAME+1, 10), hybrid_ate_himself_list, label='Hybrid Agent Ate "
+    },
+    {
+        "prefix": "e.ndim == 2:\n            boards_sample = boards_sample[np.newaxis, :, :]\n        self.input_shape = self._board_to_input(board",
+        "generated": "s_sample)\n        self.input_shape = self.input_shape.astype(np.float32)\n        self.input_shape = self.input_shape.transpose(0, 3, 1, 2)\n        self.input_shape = self.input_shape.reshape(self.input_shape.shape[0], -1)\n        self.input_shape = self.input_shape.astype(np.float32)\n        self.input_shape = self.input_shape.transpose(0, 1)\n        self.input_shape = self.input_shape.reshape(self.input_shape.shape[0], 1, self.input_shape.shape[1])\n        self.input_shape = self.input_shape.astype(np.float32)\n        self.input_shape",
+        "correct_middle": "s_sample).shape[1:]\n        self.output_size = 5  # UP, DOWN, LEFT, RIGHT, NONE\n        self.model = self._build_model()\n\n    def get_actions",
+        "suffix": "(self, boards, exploration=True):\n        \"\"\"\n        Returns the actions to be taken by the agent based on the given game boards.\n        Parameters:\n        - boards "
+    },
+    {
+        "prefix": "t, DQNAgent, HybridDQNAgent\n\n# Fix random seeds for reproducibility\ntf.random.set_seed(0) \nrandom.seed(0)\nnp.random.seed(0)\n\n# Training hyperparameters\nMOVES_PER_GAME = 1000\nNUM_BOARDS = ",
+        "generated": "10\nBOARD_SIZE = 10\n\n# Set up the TensorFlow session\nsess = tf.Session()\n\n# Set up the TensorFlow graph\ngraph = tf.Graph()\nwith graph.as_default():\n    # Set up the environment\n    env = OriginalSnakeEnvironment(NUM_BOARDS, BOARD_SIZE)\n    # Set up the agent\n    agent = HybridDQNAgent(env, sess, graph)\n    # Set up the training loop\n    agent.train(MOVES_PER_GAME)\n\n# Close the session\nsess.close()\n\n#test_original_snake.py\nimport numpy as np\nimport tensorflow as tf\n\nfrom original_snake import OriginalSnakeEnvironment\nfrom dqn_agent import DQNAgent\n\n# Fix random seeds for reproducibility",
+        "correct_middle": "1000\nBOARD_SIZE = 7\n\ntf.keras.utils.disable_interactive_logging() # Removi",
+        "suffix": "ng the annoying tf logging\n\n# Set up the environment and agents\nrnd_env = OriginalSnakeEnvironment(NUM_BOARDS, BOARD_SIZE)\nbase_env = OriginalSnakeEnvironment(NUM_B"
+    },
+    {
+        "prefix": " \"\"\"\n    def check_actions(self, new_heads):\n        walls = np.argwhere(self.boards == BaseEnvironment",
+        "generated": ".WALL)\n        powers = 2 ** n",
+        "correct_middle": ".WALL)\n        # using a sort of hash function (counting position in base \"np.max(walls)+1\" instead of base 10)\n        powers = (n",
+        "suffix": "p.max(walls) + 1) ** np.arange(walls.shape[1])\n        walls_code = np.sum(walls * powers, axis=-1)\n        new_heads_code = np.s"
+    },
+    {
+        "prefix": "_code)][:, 0]\n\n    def move(self, actions):\n        # find heads in the boards\n        heads = np.argwhere(self.boards == self.HEAD)\n        actions = np.array(actions)\n ",
+        "generated": "       dx = np.zeros(len(acti",
+        "correct_middle": "       # init rewards\n        rewards = np.zeros(self.n_boards, dtype=float)\n        # calculate action offset (from 0,1,2,3 to +1/-1 in x/y)\n        dx = np.zeros(len(acti",
+        "suffix": "ons))\n        dx[np.where(actions == self.UP)[0]] = 1\n        dx[np.where(actions == self.DOWN)[0]] = -1\n        dy = np.zeros(len(actions))\n        dy[np.where(actions == self.RIGHT)[0]] = 1\n       "
+    },
+    {
+        "prefix": "Y = 3\n    FRUIT = 2\n    EMPTY = 1\n    WALL = 0\n\n    UP = 0\n    RIGHT = 1\n    DOWN = 2\n    LEFT = 3\n    NONE = 4\n\n    def __init__(self):\n        \"\"\"\n        Initializes the BaseAgent objec",
+        "generated": "t.\n        \"\"\"\n        self.action_space = spaces.Discrete(5)\n        self.observation_space = spaces.Box(low=0, high=1, shape=(4, 4), dtype=np.int8)\n\n    def reset(self):\n        \"\"\"\n        Resets the agent to its initial state.\n\n        Returns:\n            observation (np.ndarray): The initial observation.\n        \"\"\"\n        self.position = (2, 2)\n        self.direction = self.UP\n        self.score = 0\n        self.level = 1\n        self.level_reached = False\n        self.game_over = False\n        self.fruit_eaten = False\n        self.fruit_eaten_count = 0\n        self.fruit_eaten_count_max = 10\n        self.fruit",
+        "correct_middle": "t.\n        \"\"\"\n        raise NotImplementedError()\n    \n    def get_actions(self, boards):\n  ",
+        "suffix": "      \"\"\"\n        Returns a list of actions based on the given game boards.\n\n       "
+    },
+    {
+        "prefix": "oards for which actions need to be generated.\n\n        Returns:\n        - numpy.ndarray\n            Randomly generated actions for the given boards.\n\n        \"\"\"\n        if boards.ndim == 2:\n ",
+        "generated": "           boards = np.expand_dims(boards, axis=1)\n        return np.random.choice(self.output_actions, size=boards.shape, p=self.output_actions_probs[boards])\n\n    def sample_action",
+        "correct_middle": "           boards = boards[np.newaxis, :, :]\n        return np.random.choice(range(self.output_size), size=(boards.shape[0], 1))\n    \n    def get_action",
+        "suffix": "(self):\n        \"\"\"\n        Generates a random action.\n\n        Returns:\n            int: The randomly chosen action.\n        \"\"\"\n        return np.random.choice(range(self.output"
+    },
+    {
+        "prefix": "n tf.reshape(tf.convert_to_tensor(rewards, dtype=tf.float32), (-1, 1))\n\n    def to_state(self):\n        return K.utils.to_categorical(self.boards)[..., 1:]\n\n    def get_board(self):\n        raise Not",
+        "generated": "ImplementedError\n\n    def reset(self):\n        self.boards = np.zeros((self.board_size, self.board_size, 2), dtype=np.int32)\n        self.boards[:, :, 0] = np.arange(self.board_size)\n        self.boards[:, :, 1] = np.arange(self.",
+        "correct_middle": "ImplementedError()\n\nclass OriginalSnakeEnvironment(BaseEnvironment):\n    def __init__(self, n_boards, board_size):\n        super().__init__(n_boards, ",
+        "suffix": "board_size)\n        # boards\n        self.boards[:, [0, -1], :] = self.WALL\n        self.boards[:, :, [0, -1]] = self.WALL\n        for board in s"
+    },
+    {
+        "prefix": "   \n        q_values = self.model.predict(input)\n        return np.argmax(q_values, axis=1)[:, np.newaxis]\n\n    def learn(self, prev_boards, actions, rewards, next_boards):\n        \"\"\"\n   ",
+        "generated": "     Learn from the experience.\n        Args:\n            prev_boards (list): List of previous game boards.\n            actions ",
+        "correct_middle": "     Update the Q-values of the agent's model based on the observed rewards and next states.\n        Args:\n            prev_boards (list): List of previous game boards.\n            actions ",
+        "suffix": "(list): List of actions taken by the agent.\n            rewards (list): List of rewards received by the agent.\n            next_boards (list): List of next game boards.\n        Returns:\n "
+    },
+    {
+        "prefix": " None\n\n        \"\"\"\n        height, width = board.shape\n\n        # Get positions of head and fruit\n        head = np.unravel_index(np.argmax(boa",
+        "generated": "rd == self.fruit), board.shape)\n        fruit = np.unravel_index(np.argmax(board == self.fruit), board.shape)\n\n        # Get positions of snake\n        snake = np.array(self.snake)\n\n        # Get positions of new head\n        new_head =",
+        "correct_middle": "rd == self.HEAD), (height, width))\n        fruit = np.unravel_index(np.argmax(board == self.FRUIT), (height, width))\n\n        # Calculate new head positions for all directions\n        new_heads =",
+        "suffix": " np.array(head) + self.dirs\n\n        # Clip new head positions to be within board boundaries\n        new_heads = np.clip"
+    },
+    {
+        "prefix": ", width = boards.shape\n\n        # Get positions of heads and fruits for all boards\n        heads = np.a",
+        "generated": "rray([np.where(boards == b) for b in self.fruits])\n        fruits = np.array([np.where(boards == b) for b in self.fruits])\n\n        # Get positions of heads and fruits for all boards\n        heads = np.array([np.where(boards == b) for b in self.heads])\n        fruits = np.array([np.where(boards == b) for b in self.fruits])\n\n        # Get positions of heads and fruits for all boards\n        heads = np.array([np.where(boards == b) for b in self.heads])\n        fruits = np.array([np.where(boards == b) for b in self.fruits])\n\n        # Get positions of heads and fruits for all boards\n        heads = np.array([np.where(boards == b) for b",
+        "correct_middle": "rray([np.unravel_index(np.argmax(b == self.HEAD), ",
+        "suffix": "(height, width)) for b in boards])\n        fruits = n"
+    },
+    {
+        "prefix": "f plot_board(boards, how_many=5):\n\n    \"\"\"\n\n    Plot the game boards. Visualizing them in a grid.\n\n  ",
+        "generated": "  Parameters\n    ----------\n\n    - how_many (int): The number of boards to plot.\n\n    Returns\n    -------\n\n    - None\n\n    \"\"\"\n\n    # Get the number of boards\n    n_boards = len(boards)\n\n    # Get the number of rows and columns\n    n_rows = int(np.sqrt(n_boards))\n    n_cols = int(np.sqrt(n_boards))\n\n    # Create a figure\n    fig, ax = plt.subplots(n_rows, n_cols, figsize=(10, 10))\n\n    # Plot the boards\n    for i, board in enumerate(boards):\n\n        # Get the row and column indices\n        row = i // n_cols\n        col = i % n_cols\n\n        # Plot",
+        "correct_middle": "  Parameters:\n\n    -",
+        "suffix": " boards (list): A list of game boards to be plotted. Numpy arrays of shape (width, height) or (batch, width, height).\n\n    - "
+    },
+    {
+        "prefix": "t OriginalSnakeEnvironment\n\nimport numpy as np\n\nfrom  tqdm import trange\n\nimport matplotlib.pyplot as plt\n\nimport random\n\nimport tensorflow as tf\n\nfrom agents import BaselineAgen",
+        "generated": "t\n\nfrom environments import SnakeEnvironment\n\nfrom utils import plot_snake_game\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "correct_middle": "t, RandomAgent, DQNAgent, HybridDQNAgent\n\n\n\n# Fix random seeds for reproducibility\n\nt",
+        "suffix": "f.random.set_seed(0) \n\nrandom.seed(0)\n\nnp.random.seed"
+    },
+    {
+        "prefix": "tializes a HybridDQNAgent object.\n\n        Parameters:\n        - boards_sample (list): A list of game boards used for training.\n        - alpha (float): ",
+        "generated": "The epsilon factor for the epsilon-greedy action selection. Default is 0.1.\n        - gamma (float): The discount factor for future rewards in the Q-learning algorithm. Default is 0.95.\n        - eps (float): The epsilon factor for the epsilon-greedy action selection. Default is 0.1.\n        - eps_min (float): The minimum value of epsilon. Default is 0.01.\n        - eps_decay (float): The decay rate for epsilon. Default is 0.995.\n        - eps_min (float): The minimum value of epsilon. Default is 0.01.\n        - eps_decay (float): The decay rate for epsilon. Default is 0.995.\n        - eps_decay_steps (int): The number of steps to",
+        "correct_middle": "The learning rate for the Q-learning algorithm. Default is 0.1.\n        - gamma (float): The discoun",
+        "suffix": "t factor for future rewards in the Q-learning algorithm. Default is 0.95.\n        - eps"
+    },
+    {
+        "prefix": "om .BaseAgent import BaseAgent\nfrom .BaselineAgent import BaselineAgent\nfrom .RandomAgent import RandomAgent\nfrom ",
+        "generated": ".DQNAgent import DQNAgent\nfrom .Hybr",
+        "correct_middle": ".DQNAgent import DQNAgent\nfrom .Hybr",
+        "suffix": "idDQNAgent import HybridDQNAgent\n\n__all__ = [\"BaseAgent\", \"BaselineAgent\", \"RandomAgent\", \"DQNAgent\", \"HybridDQNAgent"
+    },
+    {
+        "prefix": "_list, label='Hybrid Agent Ate Himself', color='purple', alpha=0.7)\n\nplt.plot(range(10, 1001, 10), baseline_ate_himself_list, label='Baselin",
+        "generated": "e Agent Ate Himself', color='green', alpha=0.7)\n\nplt.plot(range(10, 1001, 10), hybrid_ate_himself_list, label='Hybrid Agent Ate Himself', color='purple', alpha=0.7)\n\n\n\n# Add text with overall cumulative fruits eaten\n\nplt.text(0.02, 0.98, f\"Baseline Agent Overall Fruits: {baseline_fruits}\", \n\n  horizontalalignment=\"center left\", verticalalignment=\"center left\")\n\nplt.text(0.02, 0.96, f\"Hybrid Agent Overall Fruits: {hybrid_fruits}\", \n\n  horizontalalignment=\"center left\", verticalalignment=\"c",
+        "correct_middle": "e Agent Ate Himself', color='black', alpha=0.7)\n\n\n\n# Customize the plot\n\nplt.title('Events Hybrid vs. Baseline', fontsize=16)\n\nplt.xlabel('Iteration', fontsize=12)\n\nplt.legend(fontsize=10, loc=\"c",
+        "suffix": "enter left\")\n\nplt.grid(True, alpha=0.3)\n\n\n\n# Add text with overall cumulative fruits eaten\n\nplt.text(0.02, 0.98, f\"Hybrid Agent Overall Fruits: {hybrid_fruits}\", \n\n "
+    },
+    {
+        "prefix": "nt\nfrom .BaselineAgent import BaselineAgent\nfrom .RandomAgent import RandomAgent\nfrom .DQNAgent import DQNAgent\nfrom .Hybr",
+        "generated": "idAgent import HybridAgent\n\n",
+        "correct_middle": "idDQNAgent import HybridDQNAgent\n\n",
+        "suffix": "__all__ = [\"BaseAgent\", \"BaselineAgent\", \"RandomAgent\", \"D"
+    },
+    {
+        "prefix": "xt(0.02, 0.98, f\"Hybrid Agent Overall Fruits: {hybrid_fruits}\", \n         transform=plt.gca().transAxes, fontsize=10, verticalalignment='top')\nplt.text(0.02, 0.94, f\"Basel",
+        "generated": "ine Agent Overall Fruits: {baseline_fruits}\", \n         transform=plt.gca().transAxes, fontsize=10, verticalalignment='top')\nplt.t",
+        "correct_middle": "ine Agent Overall Fruits: {baseline_fruits}\",\n         transform=plt.gca().transAxes, fontsize=10, verticalalignment='top')\nplt.t",
+        "suffix": "ext(0.02, 0.90, f\"Hybrid Agent Overall Wall Hits: {hybrid_wall"
+    },
+    {
+        "prefix": "import BaseAgent\nfrom .BaselineAgent import BaselineAgent\nfrom .RandomAgent import RandomAgent\nfrom .DQNAgent impo",
+        "generated": "rt DQNAgent\n\n__all__ = [\"",
+        "correct_middle": "rt DQNAgent\nfrom .HybridDQNAgent import HybridDQNAgent\n\n__all__ = [\"BaseAgent\", \"",
+        "suffix": "BaselineAgent\", \"RandomAgent\", \"DQNAgent\", \"HybridDQNAg"
+    },
+    {
+        "prefix": "e_ate_himself = 0\n\nfor step in trange(MOVES_PER_GAME):\n    # Get actions from the agents\n    hybrid_actions = hybrid_agent_test.get_actions(hybrid_env.boards)\n    baseline_actions = baseline_agent_t",
+        "generated": "est.get_actions(baseline_env.boards)\n\n    # Apply actions to the environment\n    hybrid_reward = hybrid_env.move(hybrid_actions)\n    baseline_reward = baseline_env.move(baseline_actions)\n\n    # Update the reward for the agent\n    hybrid_reward += hybrid_agent_test.update_reward(hybrid_reward)\n    baseline_reward += baseline_agent_test.update_reward(baseline_reward)\n\n    # Update the rew",
+        "correct_middle": "est.get_actions(base_env.boards)\n    \n    # Perform the actions and get the rew",
+        "suffix": "ards from the environment\n    hybrid_reward = hybrid_env.move(hybrid"
+    },
+    {
+        "prefix": "eward, dqn_env.boards)\n    hybrid_agent.learn(hybrid_prev_boards, hybrid_actions, hybrid_reward, hybrid_env.boards)\n\n    \n    #",
+        "generated": " Plot the results\n    plt.plot(rnd_rewards, label='Random')\n    plt.plot(baseline_rewards, label='Baseline')\n    plt.plot(dqn_rewards, label='DQN')\n    plt.plot(hybrid_rewards, label='Hybrid')\n    plt.legend()\n    plt.show()\n\n    # Save the results\n    np.save('results/rnd_rewards.npy', rnd_rewards)\n    np.save('results/baseline_rewards.npy', baseline_rewards)\n    np.save('results/dqn_rewards.npy', dqn_rewards)\n    np.save('results/hybrid_rewards.npy', hybrid_rewards)\n\n    # Print",
+        "correct_middle": " Store the rewards for each move\n    r",
+        "suffix": "nd_rewards.append(np.mean(rnd_reward))\n    baseline_rewards.append(np.mean(baseline_reward))\n    dqn_rewards.append(np.mean(dqn_reward))\n    hybrid_rewards.append(np.mean(hybrid_reward))\n\n"
+    },
+    {
+        "prefix": "ds.copy()\n    \n    # Perform the actions and get the rewards from the environment\n    rnd_reward = rnd_env.move(rnd_ac",
+        "generated": "tions)\n    base_reward = base_env.move(base_actions)\n    hybrid_reward = hybrid_env.move(hybrid_actions)\n\n    # Save the rewards\n    dqn_rewards.append(dqn_reward)\n    base_rewards.append(base_reward)\n    hybrid_rewards.append(hybrid_reward)\n\n    # Save the boards\n    dqn_prev_boards.append(dqn_prev_board)\n    base_prev_boards.append(base_prev_board)\n    hybrid_prev_boards.append(hybrid_prev_board)\n\n    # Save the actions\n    dqn_actions.append(dqn_action)\n    base_actions.append(base_action)\n    hybrid_actions.append(hybrid_action)",
+        "correct_middle": "tions)\n    baseline_reward = base_env.move",
+        "suffix": "(base_actions)\n    dqn_reward = dqn_env.move(dqn_actions)\n    hybrid_reward = hybrid_env.move(hybrid_actions)\n\n    # Learn from it\n    dqn_agent.learn(dqn_prev_boards, dqn_actions, dqn_rewa"
+    },
+    {
+        "prefix": "nt representing the right direction.\n        DOWN (int): Constant representing the down direction.\n        LEFT (int): Const",
+        "generated": "ant representing the left direction.\n        UP (int): Constant representing the up direction.\n      ",
+        "correct_middle": "ant representing the left direction.\n      ",
+        "suffix": "  NONE (int): Constant representing no action.\n    Methods:\n        __init__(): Initializes a new instance of the BaseAgent class.\n        get_actions(boa"
+    },
+    {
+        "prefix": "xploration rate. Default is 0.99.\n        \"\"\"\n        self.alpha = alpha\n        self.gamma = gamma\n        self.epsilon = epsilon\n        self.decay = decay\n        # Mode",
+        "generated": "l parameters\n        self.model_name = model_name\n        self.model_path = model_path\n        self.model_params = model_params\n        # Input parameters\n        self.boards_sample = boards_sample\n        self.boards_sample_size = boards_sample_size\n        self.boards_sample_shape = boards_sample_shape",
+        "correct_middle": "l parameters\n        if boards_sample.ndim == 2:\n            boards_sample = boards_sample[np.newaxis, :, :]",
+        "suffix": "\n        self.input_shape = self._board_to_input(boards_sample).shape[1:]\n        self.output_size = 5  # UP, DOWN, LEFT, RIGHT, NONE\n        self.model = self._build_mo"
+    },
+    {
+        "prefix": "t_action(board): Returns the action to be taken by the agent based on the given board state.\n    - l",
+        "generated": "earn(experience",
+        "correct_middle": "earn(prev_boards, actions, reward",
+        "suffix": "s, next_boards): Learn from the given experiences.\n    - load_model_weights(path): Load the model weights from the specified path.\n    \"\"\"\n    def _"
+    },
+    {
+        "prefix": "IGHT, NONE\n    \n    def get_actions(self, boards):\n        \"\"\"\n        Generates random actions for the given boards.\n\n ",
+        "generated": "       Args:\n        - boards (numpy.ndarray): Boards ",
+        "correct_middle": "       Parameters:\n        - boards: numpy.ndarray\n            The input boards for which actions need ",
+        "suffix": "to be generated.\n\n        Returns:\n        - numpy.ndarray\n            Randomly generated"
+    },
+    {
+        "prefix": "     \"\"\"\n        Generates random actions for the given boards.\n\n        Parameters:\n        - boards: numpy.ndarray\n            The input boards for which actions need to be generated.\n\n  ",
+        "generated": "      Returns:\n        - actions: numpy.ndarray\n            The generated actions.\n        \"\"\"\n        actions = np.zeros((len(boards), self.num_actions))\n        for i in range(len(boards)):\n            actions[i, :] = self.policy[boards[i].ra",
+        "correct_middle": "      Returns:\n        - numpy.ndarray\n            Randomly generated actions for the given boards.\n\n        \"\"\"\n        if boards.ndim == 2:\n            boards = boards[np.ne",
+        "suffix": "waxis, :, :]\n        return np.random.choice(range"
+    },
+    {
+        "prefix": "       # calculate action offset (from 0,1,2,3 to +1/-1 in x/y)\n        dx = np.zeros(len(actions))\n        dx[np.where(actions == self.UP)[0]] = 1\n      ",
+        "generated": "  dx[np.where(actions == self.DOWN)[0]] = -1\n        dx[np.where(actions == self.RIGHT)[0]] = 1\n        dx[np.where(a",
+        "correct_middle": "  dx[np.where(actions == self.DOWN)[0]] = -1\n        dy = np.zeros(len(actions))\n        dy[np.where(actions == self.RIGHT)[0]] = 1\n        dy[np.where(a",
+        "suffix": "ctions == self.LEFT)[0]] = -1\n        offset = np.hstack((np.zer"
+    },
+    {
+        "prefix": "  # Perform the actions and get the rewards from the environment\n    hybrid_reward = hybrid_env.move(hybrid_actions)\n    baseline_reward = base_env.move(baseline_actions)\n",
+        "generated": "\n    # Update the rewards\n    hybrid_rewards.append(hybrid_reward)\n    baseline_rewards.append(baseline_reward)\n\n    # Update the rewards\n    hybrid_fruits += np.sum(hybrid_reward == 0.5)\n    baseline_fruits += np.sum(baseline_reward == 0.5)\n\n    # Update the rewards\n    hybrid_fruits += np.sum(hybrid_rew",
+        "correct_middle": "    \n    # The fruit reward is 0.5, count the number of fruits eaten\n    hybrid_fruits += np.sum(hybrid_rew",
+        "suffix": "ard == 0.5)\n    baseline_fruits += np.sum(baseline"
+    },
+    {
+        "prefix": "prev_boards (list): List of previous game boards.\n            actions (list): List of actions taken by the agent.\n            rewards (li",
+        "generated": "st): List of rewards received by the agent.\n            next_boards (list): List of next game boards.\n            dones (list): List of whether the game is over.",
+        "correct_middle": "st): List of rewards received by the agent.\n            next_boards (list): List of next game boards.\n        Returns:\n            None",
+        "suffix": "\n        \"\"\"\n        input = self._board_to_input(prev_boards)\n        n"
+    },
+    {
+        "prefix": "       if len(available) == 0:\n                self.boards[b] = self.get_board()\n                self.bodies[b] = []\n    ",
+        "generated": "            self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get_body())\n                self.bodies[b].append(self.get",
+        "correct_middle": "            rewards[b] = self.WIN_REWARD\n                available = np.argwhere(self.boards[b] == self.EMPTY)",
+        "suffix": "\n            chosen = available[np.random.choice(range(len(available)))]\n            self.boa"
+    }
+]
