@@ -29,32 +29,29 @@ class CodeEvaluationApp:
                 self.scores = [{} for _ in self.data]  # Placeholder for scores
     
     def create_widgets(self):
-        # Prefix, Generated, Correct Middle, Suffix display
-        self.prefix_label = tk.Label(self.root, text="Prefix:")
-        self.prefix_label.pack()
-        self.prefix_text = tk.Text(self.root, height=4, wrap=tk.WORD)
-        self.prefix_text.pack()
+        # Display prefix + suffix with a placeholder
+        self.context_label = tk.Label(self.root, text="Context (Prefix + Suffix):")
+        self.context_label.pack()
+        self.context_text = tk.Text(self.root, height=12, wrap=tk.WORD)
+        self.context_text.pack()
 
-        self.generated_label = tk.Label(self.root, text="Generated:")
-        self.generated_label.pack()
-        self.generated_text = tk.Text(self.root, height=4, wrap=tk.WORD)
-        self.generated_text.pack()
-
-        self.correct_label = tk.Label(self.root, text="Correct Middle:")
+        # Display correct middle value
+        self.correct_label = tk.Label(self.root, text="True Middle Value:")
         self.correct_label.pack()
-        self.correct_text = tk.Text(self.root, height=4, wrap=tk.WORD)
+        self.correct_text = tk.Text(self.root, height=6, wrap=tk.WORD)
         self.correct_text.pack()
 
-        self.suffix_label = tk.Label(self.root, text="Suffix:")
-        self.suffix_label.pack()
-        self.suffix_text = tk.Text(self.root, height=4, wrap=tk.WORD)
-        self.suffix_text.pack()
+        # Display generated middle value
+        self.generated_label = tk.Label(self.root, text="Guessed Middle Value:")
+        self.generated_label.pack()
+        self.generated_text = tk.Text(self.root, height=6, wrap=tk.WORD)
+        self.generated_text.pack()
 
         # Star Rating for each metric
         self.create_star_rating("Overall satisfaction:", 'satisfaction')
         self.create_star_rating("Similarity to the true value:", 'similarity')
         self.create_star_rating("Completeness:", 'completeness')
-        self.create_star_rating("Errors:", 'errors')
+        self.create_star_rating("Does it contains few/many errors? (the higher the fewer):", 'errors')
 
         # Navigation Buttons
         self.prev_button = tk.Button(self.root, text="Previous", command=self.previous_sample)
@@ -98,17 +95,19 @@ class CodeEvaluationApp:
             return
         
         sample = self.data[self.current_index]
-        self.prefix_text.delete(1.0, tk.END)
-        self.prefix_text.insert(tk.END, sample['prefix'])
+        
+        # Display prefix + suffix with placeholder
+        self.context_text.delete(1.0, tk.END)
+        context = f"{sample['prefix']} <...> {sample['suffix']}"
+        self.context_text.insert(tk.END, context)
 
-        self.generated_text.delete(1.0, tk.END)
-        self.generated_text.insert(tk.END, sample['generated'])
-
+        # Display correct middle value
         self.correct_text.delete(1.0, tk.END)
         self.correct_text.insert(tk.END, sample['correct_middle'])
 
-        self.suffix_text.delete(1.0, tk.END)
-        self.suffix_text.insert(tk.END, sample['suffix'])
+        # Display generated middle value
+        self.generated_text.delete(1.0, tk.END)
+        self.generated_text.insert(tk.END, sample['generated'])
 
         # Load previous star ratings if available
         for score_key in ['satisfaction', 'similarity', 'completeness', 'errors']:
@@ -121,10 +120,10 @@ class CodeEvaluationApp:
             'similarity': getattr(self, 'similarity_score'),
             'completeness': getattr(self, 'completeness_score'),
             'errors': getattr(self, 'errors_score'),
-            'prefix': self.prefix_text.get(1.0, tk.END).strip(),
-            'generated': self.generated_text.get(1.0, tk.END).strip(),
-            'correct_middle': self.correct_text.get(1.0, tk.END).strip(),
-            'suffix': self.suffix_text.get(1.0, tk.END).strip()
+            'prefix': self.data[self.current_index]['prefix'],
+            'suffix': self.data[self.current_index]['suffix'],
+            'correct_middle': self.data[self.current_index]['correct_middle'],
+            'generated_middle': self.data[self.current_index]['generated']
         }
 
     def next_sample(self):
