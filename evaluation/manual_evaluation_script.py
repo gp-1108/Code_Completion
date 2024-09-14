@@ -57,7 +57,7 @@ class CodeEvaluationApp:
         """
         file_path = filedialog.askopenfilename(title="Select JSON File", filetypes=[("JSON Files", "*.json")])
         if file_path:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 self.data = json.load(f)
                 self.scores = [{} for _ in self.data]  # Placeholder for scores
     
@@ -92,10 +92,10 @@ class CodeEvaluationApp:
         self.generated_text.pack()
 
         # Star Rating for each metric
-        self.create_star_rating("Overall satisfaction:", 'satisfaction')
-        self.create_star_rating("Similarity to the true value:", 'similarity')
-        self.create_star_rating("Completeness:", 'completeness')
-        self.create_star_rating("Does it contains few/many errors? (the higher the fewer):", 'errors')
+        self.create_star_rating("Overall satisfaction:", "satisfaction")
+        self.create_star_rating("Similarity to the true value:", "similarity")
+        self.create_star_rating("Completeness:", "completeness")
+        self.create_star_rating("Does it contains few/many errors? (the higher the fewer):", "errors")
 
         # Navigation Buttons
         self.prev_button = tk.Button(self.root, text="Previous", command=self.previous_sample)
@@ -154,14 +154,14 @@ class CodeEvaluationApp:
 
     def display_sample(self):
         """
-        Displays the current sample's context, correct middle value, and generated middle value
+        Displays the current sample"s context, correct middle value, and generated middle value
         in the respective text widgets. Also loads and sets the previous star ratings if available.
         The method performs the following steps:
         1. Checks if the current index is within the valid range of the data list.
         2. Retrieves the sample at the current index.
-        3. Updates the context text widget with the sample's prefix and suffix, separated by a placeholder.
-        4. Updates the correct text widget with the sample's correct middle value.
-        5. Updates the generated text widget with the sample's generated middle value.
+        3. Updates the context text widget with the sample"s prefix and suffix, separated by a placeholder.
+        4. Updates the correct text widget with the sample"s correct middle value.
+        5. Updates the generated text widget with the sample"s generated middle value.
         6. Loads and sets the previous star ratings for satisfaction, similarity, completeness, and errors.
         Returns:
             None
@@ -173,19 +173,19 @@ class CodeEvaluationApp:
         
         # Display prefix + suffix with placeholder
         self.context_text.delete(1.0, tk.END)
-        context = f"{sample['prefix']} <...> {sample['suffix']}"
+        context = f"{sample["prefix"]} <...> {sample["suffix"]}"
         self.context_text.insert(tk.END, context)
 
         # Display correct middle value
         self.correct_text.delete(1.0, tk.END)
-        self.correct_text.insert(tk.END, sample['correct_middle'])
+        self.correct_text.insert(tk.END, sample["correct_middle"])
 
         # Display generated middle value
         self.generated_text.delete(1.0, tk.END)
-        self.generated_text.insert(tk.END, sample['generated'])
+        self.generated_text.insert(tk.END, sample["generated"])
 
         # Load previous star ratings if available
-        for score_key in ['satisfaction', 'similarity', 'completeness', 'errors']:
+        for score_key in ["satisfaction", "similarity", "completeness", "errors"]:
             rating = self.scores[self.current_index].get(score_key, 0)
             self.set_star_rating(score_key, rating, getattr(self, f"{score_key}_stars"))
 
@@ -194,24 +194,24 @@ class CodeEvaluationApp:
         Save the evaluation scores for the current index into the scores dictionary.
 
         The scores dictionary is updated with the following keys:
-        - 'satisfaction': The satisfaction score.
-        - 'similarity': The similarity score.
-        - 'completeness': The completeness score.
-        - 'errors': The errors score.
-        - 'prefix': The prefix part of the data at the current index.
-        - 'suffix': The suffix part of the data at the current index.
-        - 'correct_middle': The correct middle part of the data at the current index.
-        - 'generated_middle': The generated middle part of the data at the current index.
+        - "satisfaction": The satisfaction score.
+        - "similarity": The similarity score.
+        - "completeness": The completeness score.
+        - "errors": The errors score.
+        - "prefix": The prefix part of the data at the current index.
+        - "suffix": The suffix part of the data at the current index.
+        - "correct_middle": The correct middle part of the data at the current index.
+        - "generated_middle": The generated middle part of the data at the current index.
         """
         self.scores[self.current_index] = {
-            'satisfaction': getattr(self, 'satisfaction_score'),
-            'similarity': getattr(self, 'similarity_score'),
-            'completeness': getattr(self, 'completeness_score'),
-            'errors': getattr(self, 'errors_score'),
-            'prefix': self.data[self.current_index]['prefix'],
-            'suffix': self.data[self.current_index]['suffix'],
-            'correct_middle': self.data[self.current_index]['correct_middle'],
-            'generated_middle': self.data[self.current_index]['generated']
+            "satisfaction": getattr(self, "satisfaction_score"),
+            "similarity": getattr(self, "similarity_score"),
+            "completeness": getattr(self, "completeness_score"),
+            "errors": getattr(self, "errors_score"),
+            "prefix": self.data[self.current_index]["prefix"],
+            "suffix": self.data[self.current_index]["suffix"],
+            "correct_middle": self.data[self.current_index]["correct_middle"],
+            "generated_middle": self.data[self.current_index]["generated"]
         }
 
     def next_sample(self):
@@ -222,7 +222,7 @@ class CodeEvaluationApp:
         and displays the next sample. If the current index exceeds the length of the data,
         it is reset to the last valid index.
         """
-        self.save_scores()  # Save current sample's scores
+        self.save_scores()  # Save current sample"s scores
         self.current_index += 1
         if self.current_index >= len(self.data):
             self.current_index = len(self.data) - 1
@@ -240,7 +240,7 @@ class CodeEvaluationApp:
         Returns:
             None
         """
-        self.save_scores()  # Save current sample's scores
+        self.save_scores()  # Save current sample"s scores
         self.current_index -= 1
         if self.current_index < 0:
             self.current_index = 0
@@ -260,7 +260,7 @@ class CodeEvaluationApp:
         """
         file_path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON Files", "*.json")])
         if file_path:
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 json.dump(self.scores, f, indent=4)
             messagebox.showinfo("Info", "Scores saved successfully.")
 
